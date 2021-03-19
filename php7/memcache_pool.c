@@ -919,7 +919,10 @@ void mmc_pool_add(mmc_pool_t *pool, mmc_t *mmc, unsigned int weight) /*
 	pool->servers = erealloc(pool->servers, sizeof(*pool->servers) * (pool->num_servers + 1));
 	pool->servers[pool->num_servers] = mmc;
 
-	/* store the smallest timeout for any server */
+    php_error_docref(NULL, E_NOTICE, "Add server to pool, servers: %d weight: %d",
+                     (int)pool->num_servers, (int)weight);
+
+    /* store the smallest timeout for any server */
 	if (!pool->num_servers || timeval_to_double(mmc->timeout) < timeval_to_double(pool->timeout)) {
 		pool->timeout = mmc->timeout;
 	}
